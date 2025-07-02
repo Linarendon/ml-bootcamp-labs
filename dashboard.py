@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
+from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import joblib
 
@@ -25,15 +26,24 @@ st.markdown("---")
 @st.cache_data
 def load_and_prepare_data():
     """Cargar y preparar los datos"""
-    df = pd.read_csv('Production_data.csv')
+    df = pd.read_csv('data/raw/Production_data.csv')
     X = df.drop(['Well_ID', 'Production_Rate'], axis=1)
     y = df['Production_Rate']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    # Imputar valores faltantes con la media
+    imputer = SimpleImputer(strategy='mean')
+    X_train_imputed = imputer.fit_transform(X_train)
+    X_test_imputed = imputer.transform(X_test)
+
+    y_train =  imputer.fit_transform(pd.DataFrame(y_train))
+    y_test = imputer.fit_transform(pd.DataFrame(y_test))
+
+
     scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    X_train_scaled = scaler.fit_transform(X_train_imputed)
+    X_test_scaled = scaler.transform(X_test_imputed)
 
     return X_train_scaled, X_test_scaled, y_train, y_test, X.columns
 
@@ -83,9 +93,14 @@ st.markdown("---")
 
 # Gráficos principales
 if show_predictions:
+    df_pred = pd.DataFrame({
+    'Valores Reales': y_test.values,
+    'Predicciones': y_pred
+})
     st.subheader("📊 Predicciones vs. Valores Reales")
     fig_pred = px.scatter(
-        x=y_test, y=y_pred, 
+        #x=y_test, y=y_pred,
+        df_pred, 
         labels={'x': 'Valores Reales', 'y': 'Predicciones'},
         title="Predicciones vs. Valores Reales"
     )
