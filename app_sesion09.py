@@ -73,3 +73,56 @@ if st.button("Predecir!"):
         st.error("No se pudo completar la predicción")
     else:    
         st.success(f"Status operativo: {remapeo_resultados(resultado)}")
+
+# 5. Menú de selección
+
+df = pd.read_csv("data/raw/Operational_events.csv")
+
+st.write("Datos cargados:")
+st.dataframe(df)
+
+dataframe_numerico = df.select_dtypes(include='number')
+columna_seleccionada = st.selectbox("Selecciona una variable: ", dataframe_numerico.columns)
+# Creación de un histograma
+fig, ax = plt.subplots(figsize=(12,4))
+sns.histplot( df[columna_seleccionada].dropna(), ax=ax )
+# Desplegar visualización en la aplicación
+st.pyplot(fig)
+
+# 6.Fondo personalizado
+
+st.markdown("""
+            <style>
+            body {
+                background-color: #7c1dbf;
+            }
+            .stApp {
+                background-image: url('https://picsum.photos/120/800');
+                background-size: cover;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+
+
+# 7. Diseno y layout
+
+st.sidebar.title("Menú lateral")
+st.sidebar.selectbox("Opción", ["Inicio", "Datos", "Predicciones"])
+
+col1, col2 = st.columns (2)
+with col1:
+        st.write("Columna 1")
+with col2:
+        st.write("Columna 2")
+
+with st.expander("Ver más detalles") :
+     st.write ("Aquí puedes esconder contenido.")
+
+
+# 8. Cargar una imagen
+
+from PIL import Image
+img = Image.open("/workspaces/ml-bootcamp-labs/data/raw/EOR.png")
+st.image(img, caption="Logo", use_container_width=True)
+
+
