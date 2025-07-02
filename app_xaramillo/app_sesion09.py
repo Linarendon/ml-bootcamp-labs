@@ -61,7 +61,7 @@ st.markdown("Introduce los datos de operación para predecir:")
 
 # Ciclo: Se encarga de desplegar un formulario en la aplicación
 for c in campos:
-    v = st.text_input(f"{c} (numérico)")
+    v = st.number_input(f"{c} (numérico)")
     valores.append(float(v))
 
 
