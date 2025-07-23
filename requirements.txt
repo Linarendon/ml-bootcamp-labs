@@ -32,7 +32,7 @@ category_encoders  # Encoding de categorías
 # Reportes interactivos/HTML
 jinja2  # Plantillas para reportes
 nbconvert # Convertir notebooks a PDF/HTML
-pandas-profiling  # Informes automáticos EDA
+ydata-profiling  # Informes automáticos EDA
 
 # Dashboarding
 streamlit  # Para crear apps interactivas
