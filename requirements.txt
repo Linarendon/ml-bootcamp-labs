@@ -29,6 +29,7 @@ pyyaml # Manejo de archivos de configuración
 
 # Preprocesamiento avanzado
 category_encoders  # Encoding de categorías
+tsfresh # Extracción de caracteristicas de series temporales
 
 # Reportes interactivos/HTML
 jinja2  # Plantillas para reportes
