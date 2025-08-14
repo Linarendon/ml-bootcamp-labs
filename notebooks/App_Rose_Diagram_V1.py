@@ -41,7 +41,7 @@ df_f = df_filtrado_tmp[
 
 # --- Graficar diagrama de rosa ---
 if not df_f.empty:
-    fig = plt.figure(figsize=(6, 7))
+    fig = plt.figure(figsize=(6, 5))
     ax = WindroseAxes.from_ax(fig=fig)
     ax.bar(
         df_f['Azimuth-dega'],
