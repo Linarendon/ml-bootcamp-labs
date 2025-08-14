@@ -1,3 +1,8 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from windrose import WindroseAxes
+
+
 # --- Cargar datos ---
 df = pd.read_csv('/workspaces/ml-bootcamp-labs/data/raw/DATOS_DIAGRAMA_ROSA_UNIFICADO.csv', sep=';')
 
