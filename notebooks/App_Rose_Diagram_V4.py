@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from windrose import WindroseAxes
 import itertools
+import io
 
 # --- Cargar datos ---
 RUTA_CSV = '/workspaces/ml-bootcamp-labs/data/raw/DATOS_DIAGRAMA_ROSA_UNIFICADO.csv'
@@ -113,14 +114,13 @@ else:
     if modo == "Orientaciones puras (solo azimut)":
         ax.bar(
             df_f['Azimuth-dega'],
-            [1]*len(df_f),   # peso uniforme
+            [1]*len(df_f),
             bins=bins,
             normed=True,
             opening=0.8,
             edgecolor='black',
             colors=colores_final
         )
-        ax.set_legend(title="Frecuencia (%)", loc='lower right', bbox_to_anchor=(1.2, 0.1))
         plt.title(
             f"Diagrama de Rosa (Orientaciones) - {pozo_sel} - {tipo_sel}\n"
             f"{profundidad_min:.2f}–{profundidad_max:.2f} ft",
@@ -147,3 +147,14 @@ else:
     fig.subplots_adjust(top=0.8)
     st.pyplot(fig)
 
+    # --- Opción para descargar ---
+    buffer = io.BytesIO()
+    fig.savefig(buffer, format="png", dpi=300, bbox_inches="tight")
+    buffer.seek(0)
+
+    st.download_button(
+        label="💾 Descargar diagrama como PNG",
+        data=buffer,
+        file_name=f"diagrama_rosa_{pozo_sel}_{tipo_sel}.png",
+        mime="image/png"
+    )
