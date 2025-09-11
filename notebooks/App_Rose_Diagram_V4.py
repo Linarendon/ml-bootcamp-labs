@@ -14,7 +14,7 @@ df = pd.read_csv(RUTA_CSV, sep=';')
 st.title('Generador de Diagramas de Rosa')
 
 # --- Rangos por pozo (y por pozo+tipo) ---
-with st.expander('📊 Ver rangos de profundidad disponibles'):
+with st.expander('Ver rangos de profundidad disponibles'):
     rangos_pozo = (
         df.groupby('wellName', as_index=False)['TDEP-ft']
           .agg(prof_min='min', prof_max='max')
@@ -50,7 +50,7 @@ if df_tmp.empty or df_tmp['TDEP-ft'].isna().all():
 prof_min = float(df_tmp['TDEP-ft'].min())
 prof_max = float(df_tmp['TDEP-ft'].max())
 
-st.info(f'📌 Rango disponible para {pozo_sel} - {tipo_sel}: {prof_min:.2f} ft a {prof_max:.2f} ft')
+st.info(f'Rango disponible para {pozo_sel} - {tipo_sel}: {prof_min:.2f} ft a {prof_max:.2f} ft')
 
 # --- Entradas numéricas para rango de profundidad ---
 col1, col2 = st.columns(2)
@@ -106,7 +106,7 @@ df_f = df_tmp[
 
 # --- Gráfico ---
 if df_f.empty:
-    st.warning("⚠️ No hay datos para el rango seleccionado.")
+    st.warning("No hay datos para el rango seleccionado.")
 else:
     fig = plt.figure(figsize=(7, 7))
     ax = WindroseAxes.from_ax(fig=fig)
@@ -153,7 +153,7 @@ else:
     buffer.seek(0)
 
     st.download_button(
-        label="💾 Descargar diagrama como PNG",
+        label="Descargar diagrama como PNG",
         data=buffer,
         file_name=f"diagrama_rosa_{pozo_sel}_{tipo_sel}.png",
         mime="image/png"
