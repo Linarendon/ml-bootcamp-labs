@@ -1,4 +1,4 @@
-# App_Rose_Diagram_modos.py
+# Cargar librerias para App de Diagrama de Rosas - Analisis de Paleocorrientes para intervalos especificos de pozos. 
 
 import streamlit as st
 import pandas as pd
@@ -7,7 +7,7 @@ from windrose import WindroseAxes
 import itertools
 import io
 
-# --- Cargar datos ---
+# --- Cargar datos --- Leer la base de datos o archivo con datos estrucutrales (Dipmeter)
 RUTA_CSV = '/workspaces/ml-bootcamp-labs/data/raw/DATOS_DIAGRAMA_ROSA_UNIFICADO.csv'
 df = pd.read_csv(RUTA_CSV, sep=';')
 
