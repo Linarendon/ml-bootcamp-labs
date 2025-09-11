@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # --- Cargar archivo Excel ---
-RUTA = /workspaces/ml-bootcamp-labs/data/raw/Shift_Pozos_LDiscEoc-cvs.csv   # 👈 cámbialo por la ruta de tu archivo
+RUTA = "/workspaces/ml-bootcamp-labs/data/raw/Shift_Pozos_LDiscEoc-cvs.csv"   # 👈 cámbialo por la ruta de tu archivo
 df = pd.read_excel(RUTA)
 
 # --- Verificación de datos ---
