@@ -44,6 +44,10 @@ df_f = df[(df["POZO"].isin(pozo_sel)) & (df["CURVA_REGISTRO"].isin(curva_sel))].
 if df_f.empty:
     st.warning("⚠️ No hay datos para los filtros seleccionados.")
     st.stop()
+#----------------------------------
+# Filtrar solo correlaciones consistentes
+df_f = df_f[df_f["CONSISTENCIA"].str.upper() == "CONSISTENTE"]
+
 
 # -----------------------------
 # Resumen estadístico
