@@ -67,6 +67,8 @@ sns.stripplot(data=df_f, x="CURVA_INVERSION", y="CORRELACION_ABS", ax=ax1, color
 ax1.set_title("Comparación de correlaciones absolutas")
 st.pyplot(fig1)
 
+
+
 # -----------------------------
 # Gráfico 2: Boxplot por curva de registro
 # -----------------------------
@@ -76,6 +78,7 @@ fig2, ax2 = plt.subplots(figsize=(12,6))
 sns.boxplot(data=df_f, x="CURVA_REGISTRO", y="CORRELACION_ABS", hue="CURVA_INVERSION", ax=ax2)
 ax2.set_title("Correlaciones absolutas por curva de registro")
 st.pyplot(fig2)
+
 
 # -----------------------------
 # Conclusión simple
