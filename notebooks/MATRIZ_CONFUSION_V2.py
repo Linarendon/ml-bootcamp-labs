@@ -9,7 +9,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 # -----------------------------
 # 1. Cargar datos
 # -----------------------------
-FILE_PATH = "/workspaces/ml-bootcamp-labs/data/raw/LLANITO_LOGS_DISCRETOS_cvs.csv"
+FILE_PATH = "/workspaces/ml-bootcamp-labs/data/raw/LLAN0031_CSV.csv"
 
 st.title("📊 Comparación de curvas discretas con Matriz de Confusión y Métricas")
 
@@ -28,8 +28,8 @@ df["DEPTH"] = pd.to_numeric(df["DEPTH"], errors="coerce").astype(int)
 pozos = df["POZO"].unique().tolist()
 pozo = st.selectbox("Seleccione el pozo", pozos)
 
-curvas_reales = ["RT3_PERM", "RT3_POR", "RT3_VSH"]
-curvas_modelo = ["RT3_XPLT", "RT3_IP", "RT3_VPVS"]
+curvas_reales = ["RT3_K", "RT3_Por", "RT3_Vsh"]
+curvas_modelo = ["RT3_Xplt", "RT3_IP_03", "RT3_VpVs_03"]
 
 curva_real = st.selectbox("Seleccione la curva REAL", curvas_reales)
 curva_modelo = st.selectbox("Seleccione la curva del MODELO", curvas_modelo)
