@@ -100,29 +100,58 @@ st.download_button("Descargar Diagrama de Rosa", buf1, file_name=f"rosa_{pozo_se
 st.markdown("---")
 st.subheader("Proyección Estereográfica (Stereonet)")
 
-fig2 = plt.figure(figsize=(6,6))
+# Selector de hemisferio
+hemisferio = st.radio(
+    "Selecciona el hemisferio de proyección:",
+    ("Inferior (estructural, polos a planos)", "Superior (paleocorrientes)"),
+    index=0,
+)
+
+fig2 = plt.figure(figsize=(6, 6))
 ax2 = fig2.add_subplot(111, projection='stereonet')
 
-# Convertir azimut-dip a strike-dip si no está en ese formato
+# Extraer datos
 azimuths = df_f['Azimuth-dega'].to_numpy()
 dips = df_f['Dip_dega'].to_numpy()
 
-# Graficar polos (bedding, fracturas, etc.)
-ax2.pole(azimuths, dips, 'bo', markersize=4, label='Polos')
+# Si se selecciona hemisferio superior (paleocorrientes)
+if "Superior" in hemisferio:
+    # Invertir dirección 180° para reflejar al hemisferio superior
+    azimuths_plot = (azimuths + 180) % 360
+    label = "Paleocorrientes (Hemisferio superior)"
+else:
+    # Hemisferio inferior tradicional (estructural)
+    azimuths_plot = azimuths
+    label = "Polos (Hemisferio inferior)"
 
-# Opcional: contorno de densidad si hay suficientes datos
+# Graficar polos
+ax2.pole(azimuths_plot, dips, 'bo', markersize=4, label=label)
+
+# Contornos de densidad si hay suficientes datos
 if len(df_f) > 20:
-    density = ax2.density_contourf(azimuths, dips, measurement='poles', cmap='Blues', alpha=0.6)
+    density = ax2.density_contourf(
+        azimuths_plot, dips, measurement='poles', cmap='Blues', alpha=0.6
+    )
     fig2.colorbar(density, ax=ax2, orientation='vertical', shrink=0.6, label='Densidad')
 
+# Personalizar título y leyenda
 ax2.grid(True)
 ax2.legend()
-ax2.set_title(f"Stereonet - {pozo_sel} - {tipo_sel}\n{profundidad_min:.0f}-{profundidad_max:.0f} ft")
+ax2.set_title(
+    f"Stereonet - {pozo_sel} - {tipo_sel}\n"
+    f"{profundidad_min:.0f}-{profundidad_max:.0f} ft\n{hemisferio}"
+)
 
+# Mostrar en Streamlit
 st.pyplot(fig2)
 
 # --- Botón de descarga ---
 buf2 = io.BytesIO()
 fig2.savefig(buf2, format="png", dpi=300, bbox_inches="tight")
 buf2.seek(0)
-st.download_button("Descargar Stereonet", buf2, file_name=f"stereonet_{pozo_sel}_{tipo_sel}.png", mime="image/png")
+st.download_button(
+    "⬇️ Descargar Stereonet",
+    buf2,
+    file_name=f"stereonet_{pozo_sel}_{tipo_sel}_{'sup' if 'Superior' in hemisferio else 'inf'}.png",
+    mime="image/png"
+)
