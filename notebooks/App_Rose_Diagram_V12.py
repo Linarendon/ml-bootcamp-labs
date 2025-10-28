@@ -112,6 +112,15 @@ modo = st.radio(
     ("Orientaciones puras (solo azimut)", "Orientaciones + clasificación por dip")
 )
 
+# --- Mostrar conteo de medidas ---
+if not df_f.empty:
+    conteos = df_f['Type'].value_counts().reset_index()
+    conteos.columns = ['Tipo de estructura', 'Número de medidas']
+    total_medidas = len(df_f)
+    st.subheader("📊 Conteo de medidas estructurales")
+    st.dataframe(conteos)
+    st.success(f"**Total de medidas estructurales en este rango:** {total_medidas}")
+
 # --- Gráfico ---
 if df_f.empty:
     st.warning("No hay datos para el rango seleccionado.")
@@ -149,7 +158,6 @@ else:
                 label=f"{tipo} (n={len(data_tipo)})"
             )
 
-    # --- ax.set_legend(title="Tipo de estructura")
     plt.title(
         f"Diagrama de Rosa Superpuesto - {pozo_sel}\n"
         f"{profundidad_min:.2f}–{profundidad_max:.2f} ft",
@@ -157,7 +165,12 @@ else:
     )
     fig.subplots_adjust(top=0.8)
     st.pyplot(fig)
-
+    
+    # --- Escala radial fija (por ejemplo, hasta 20%)
+    ax.set_rmax(20)                    # valor máximo del radio (puedes ajustarlo según tus datos)
+    ax.set_rticks([5, 10, 15, 20])     # valores concéntricos cerrados
+    ax.set_rlabel_position(90)         # coloca las etiquetas en el eje Norte (opcional)
+    
     # --- Botón de descarga ---
     buffer = io.BytesIO()
     fig.savefig(buffer, format="png", dpi=300, bbox_inches="tight")
