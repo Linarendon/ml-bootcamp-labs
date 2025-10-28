@@ -76,7 +76,7 @@ bins = st.slider('Número de bins (divisiones angulares)', min_value=4, max_valu
 
 paletas = {
     'Clásico Geológico': ['#003f5c', '#58508d', '#bc5090', '#ff6361', '#ffa600'],
-    'Elegante': ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51'],
+    'Elegante': ['#ff6361', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51'],
     'Marino/Terrestre': ['#00429d', '#4771b2', '#73a2c6', '#a5d5d8', '#f6f5f5']
 }
 paleta_sel = st.selectbox('Paleta de colores:', list(paletas.keys()))

@@ -138,7 +138,7 @@ else:
                 data_tipo['Azimuth-dega'],
                 [1]*len(data_tipo),
                 bins=bins,
-                normed=True,
+                normed=False,
                 opening=0.8,
                 edgecolor='black',
                 color=colores[i % len(colores)],
@@ -150,7 +150,7 @@ else:
                 data_tipo['Azimuth-dega'],
                 data_tipo['Dip_dega'],
                 bins=bins,
-                normed=True,
+                normed=False,
                 opening=0.8,
                 edgecolor='black',
                 color=colores[i % len(colores)],
@@ -158,11 +158,29 @@ else:
                 label=f"{tipo} (n={len(data_tipo)})"
             )
 
+    # --- Crear texto con tipos y número de lecturas por tipo ---
+    tipos_con_n = []
+    for tipo in tipos_sel:
+        n_datos = len(df_f[df_f['Type'] == tipo])
+        tipos_con_n.append(f"{tipo} (n={n_datos})")
+
+    # Calcular el total combinado
+    total_n = len(df_f)
+
+    # Crear el texto final del título
+    tipos_texto = ", ".join(tipos_con_n)
+
+    # Calcular espesor del intervalo
+    espesor = profundidad_max - profundidad_min
+
     plt.title(
-        f"Diagrama de Rosa Superpuesto - {pozo_sel}\n"
-        f"{profundidad_min:.2f}–{profundidad_max:.2f} ft",
+        f"Diagrama de Rosa - {pozo_sel}\n"
+        f"Tipos: {tipos_texto}\n"
+        f"Total combinado: n={total_n} | Intervalo: {profundidad_min:.2f}–{profundidad_max:.2f} ft"
+        f"(Espesor: {espesor:.1f} ft)",
         pad=30
     )
+
     fig.subplots_adjust(top=0.8)
     st.pyplot(fig)
 
